@@ -24,10 +24,11 @@
       color: $charcoal;
       padding: 5px 0px;
       width: 100%;
-      border-top: 0px;
-      border-right: 0px;
+      border-width: 0px;
+      // border-top: 0px;
+      // border-right: 0px;
       border-bottom: 1px solid $teal;
-      border-left: 0px;
+      // border-left: 0px;
       background-color: transparent;
       transition: 0.5s all ease-in-out;
       font-size: 1.1em;
@@ -42,5 +43,5 @@
 
   @mixin base-grid() {
     display: grid;
-    grid-gap: 21px;
+    gap: 21px;
   }
