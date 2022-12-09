@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import axios from "axios";
-import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-  faTrash, faSignOutAlt, faEdit, faBomb, faScissors, faFileCirclePlus,
-} from "@fortawesome/free-solid-svg-icons";
+import Icons from "../helpers/icons";
 
 import NavigationContainer from "./navigation/navigation-container";
 import Home from "./pages/home";
@@ -18,11 +15,13 @@ import PortfolioDetail from "./portfolio/portfolio-detail";
 import Auth from "./pages/auth";
 import NoMatch from './pages/no-match';
 
-library.add(faTrash, faSignOutAlt, faEdit, faBomb, faScissors, faFileCirclePlus);
+
 
 export default class App extends Component {
   constructor(props) {
     super(props);
+
+    Icons();
 
     this.state = {
       loggedInStatus: "NOT_LOGGED_IN"
@@ -82,12 +81,12 @@ export default class App extends Component {
   }
 
   authorizedRoutes() {
-    return [<Route key='portfolio-manager' path="/portfolio-manager" component={PortfolioManager}/>];
+    return [<Route key='portfolio-manager' path='/portfolio-manager' component={PortfolioManager}/>];
   }
 
   render() {
     return (
-      <div className="container">
+      <div className='container'>
         <Router>
           <div>
             <NavigationContainer 
@@ -96,9 +95,9 @@ export default class App extends Component {
             />
 
             <Switch>
-              <Route exact path="/" component={Home} />
+              <Route exact path='/' component={Home} />
 
-              <Route path="/auth" render={props => (
+              <Route path='/auth' render={props => (
                   <Auth
                     {...props}
                     handleSuccessfulLogin={this.handleSuccessfulLogin}
@@ -107,14 +106,21 @@ export default class App extends Component {
                 )}
               />
 
-              <Route path="/about-me" component={About} />
-              <Route path="/contact" component={Contact} />
-              <Route path="/blog" component={Blog} />
-              <Route path="/b/:slug" component={BlogDetail} />
+              <Route path='/about-me' component={About} />
+              <Route path='/contact' component={Contact} />
               
-              {this.state.loggedInStatus === "LOGGED_IN" ? (this.authorizedRoutes()) : null}
+              <Route
+                path='/blog'
+                render={props => (
+                  <Blog {...props} loggedInStatus={this.state.loggedInStatus} />
+                )}
+              />
+
+              <Route path='/b/:slug' component={BlogDetail} />
               
-              <Route exact path="/portfolio/:slug" component={PortfolioDetail}/>
+              {this.state.loggedInStatus === 'LOGGED_IN' ? (this.authorizedRoutes()) : null}
+              
+              <Route exact path='/portfolio/:slug' component={PortfolioDetail}/>
               <Route component={NoMatch} />
             </Switch>
           
